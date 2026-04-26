@@ -15,10 +15,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const supabase = createClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
+    try {
+      const supabase = createClient();
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        setUser(user);
+      });
+    } catch (err) {
+      console.error("Failed to initialize Supabase client:", err);
+    }
   }, []);
 
   const logout = async () => {
