@@ -35,8 +35,13 @@ export default function AdminLoginPage() {
         router.push("/admin");
         router.refresh();
       }
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      console.error(err);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
