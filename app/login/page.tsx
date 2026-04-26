@@ -31,7 +31,7 @@ export default function ClientLoginPage() {
       });
 
       if (authError) {
-        setError("Invalid credentials. Please try again.");
+        setError(authError.message || "Invalid credentials. Please try again.");
       } else {
         // Route admin to dashboard, clients to the form
         if (email === "admin@gaudi.internal") {

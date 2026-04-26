@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
         password,
       });
       if (authError) {
-        setError("Invalid credentials. Please try again.");
+        setError(authError.message || "Invalid credentials. Please try again.");
       } else {
         router.push("/admin");
         router.refresh();
