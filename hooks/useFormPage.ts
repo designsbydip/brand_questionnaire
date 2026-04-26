@@ -1,0 +1,82 @@
+"use client";
+
+import { useEffect, useCallback } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useFormContext } from "@/context/FormContext";
+import { toast } from "sonner";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useFormPage(schema: z.ZodType<any, any, any>, pageRoute: string) {
+  const { state, updateFields, markPageVisited, dispatch } = useFormContext();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const form = useForm<any>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+    defaultValues: {},
+  });
+
+  // Populate form with saved context data on mount
+  useEffect(() => {
+    if (Object.keys(state.data).length > 0) {
+      form.reset(state.data, { keepErrors: false });
+      // Trigger validation immediately so isValid reflects the pre-filled state
+      form.trigger();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    markPageVisited(pageRoute);
+  }, [pageRoute, markPageVisited]);
+
+  const saveToDb = useCallback(async (pageData: Record<string, unknown>) => {
+    dispatch({ type: "SET_SAVING", saving: true });
+    try {
+      // Merge accumulated state with new page data so all answers persist
+      const mergedData = { ...state.data, ...pageData };
+
+      // Parse section number from route like "1-1" → 1, "10-1" → 10
+      const sectionNumber = parseInt(pageRoute.split("-")[0], 10);
+
+      const res = await fetch("/api/auto-save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formData: mergedData,
+          lastPageVisited: sectionNumber,
+        }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        if (!state.responseId) {
+          dispatch({ type: "SET_RESPONSE_ID", id: result.id });
+        }
+        dispatch({ type: "SET_LAST_SAVED", date: new Date() });
+      } else {
+        dispatch({ type: "SET_SAVE_ERROR", error: result.message ?? "Failed to save" });
+        toast.error("Failed to save progress");
+      }
+    } catch {
+      dispatch({ type: "SET_SAVE_ERROR", error: "Failed to save" });
+      toast.error("Failed to save progress");
+    } finally {
+      dispatch({ type: "SET_SAVING", saving: false });
+    }
+  }, [state.data, state.responseId, pageRoute, dispatch]);
+
+  const onSaveFields = useCallback(async (data: Record<string, unknown>) => {
+    updateFields(data);
+    await saveToDb(data);
+  }, [updateFields, saveToDb]);
+
+  return {
+    form,
+    onSaveFields,
+    state,
+    // Use the Zod resolver's isValid directly — correctly false when required fields are empty
+    isValid: form.formState.isValid,
+    handleSubmit: form.handleSubmit,
+  };
+}

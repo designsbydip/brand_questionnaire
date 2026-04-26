@@ -1,0 +1,174 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model GaudiResponse {
+  id                    String   @id @default(cuid())
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  completionPercentage  Int      @default(0)
+  status                String   @default("draft") // "draft" or "submitted"
+  userId                String?  @unique
+
+  // Part 1: Story Foundation
+  originStory           String?
+  ahaMoment             String?
+  frustrationDescription String?
+  gaudiStartDate        DateTime?
+  automation6MonthsAgo  Int?
+  currentAutomation     Int?
+  targetAutomation12Months Int?
+
+  // Part 2: Value Prop & Messaging
+  valuePropAudience     String?
+  valuePropOutcome      String?
+  valuePropMethod       String?
+  valuePropFraming      String?
+  capabilities          String[]
+  aiHandles             String?
+  humansHandle          String?
+  outputTypes           String[]
+  impactEngineers       String?
+  impactCompany         String?
+  impactClients         String?
+  caseStudyExample      String?
+  metricsData           Json?
+
+  // Part 3: Brand Personality
+  vibeAttributes        String[]
+  toneCasualToProfessional Int?
+  tonePlayfulToSerious  Int?
+  toneBoldToUnderstated Int?
+  toneStartupToEnterprise Int?
+  companiesAdmired      String?
+  analogyCar            String?
+  analogyPerson         String?
+  analogyBuilding       String?
+
+  // Part 4: Narrative Direction
+  storytellingDepth     String?
+  sectionPriority       String[]
+  heroFocus             String?
+
+  // Part 5: Information Architecture
+  pageHierarchy         String[]
+  homepageSections      Json?
+  homepagePriority      String[]
+  journeyJobCandidate   Json?
+  journeyAckSite        Json?
+  journeyCompetitor     Json?
+  navItems              String[]
+  ctaHeader             String?
+  ctaHero               String?
+  ctaFooter             String?
+  contentDepth          Json?
+
+  // Part 6: Conversion Strategy
+  conversionGoals       String[]
+  ctaCareersButton      String?
+  ctaCareersSupporting  String?
+  ctaContactButton      String?
+  ctaContactSupporting  String?
+  objections            Json?
+  trustSignals          String[]
+  trustSignalsLocation  String?
+
+  // Part 7: Technical Positioning
+  aiTransparencyLevel   String?
+  proprietaryVsOpen     String?
+  humanAiFraming        String?
+
+  // Part 8: Proof & Credibility
+  availableAssets       String[]
+  projectsAutomated     Int?
+  hoursSavedPerProject  Float?
+  accuracyImprovement   Int?
+  currentAutomationPercent Int?
+  targetAutomationPercent Int?
+  teamSize              Int?
+
+  // Part 9: Target Audience
+  candidateExperienceLevel String?
+  candidateTechnicalSkills String?
+  candidateNiceToHave   String?
+  candidateCultureFit   String?
+  candidateMotivations  String[]
+  candidateQuestions    String[]
+  careerUniqueSelling   String[]
+  careerProblemsToSolve String?
+  careerGrowth          String?
+  officeLocation        String?
+  remotePolicy          String?
+  careerTeamSize        Int?
+  careerVibe            String?
+  careerPerks           String?
+  openRoles             Json?
+  noOpeningsHandling    String[]
+
+  // Part 10: Visual Direction
+  heroAnimationStyle    String?
+  primaryAccentColor    String?
+  colorTemperature      String?
+  visualEnergy          Int?
+  imageryStyles         String[]
+
+  // Part 11: Relationship to AKC
+  ackRelationshipClarity String?
+  ackCredibilityVsDistraction String?
+
+  // Part 12: Success Metrics
+  successVisitorActions String[]
+  primaryConversionGoals String[]
+  benchmarkCareerVisit  Int?
+  benchmarkApplicationRate Int?
+  benchmarkTimeOnSite   Int?
+  benchmarkPagesPerSession Float?
+  benchmarkBounceRate   Int?
+  perfScrollDepth       Int?
+  perfHowItWorks        Int?
+  perfAnimationCompletion Int?
+  perfCtaClickRate      Int?
+
+  // Part 13: Messaging & Copy Tone
+  message1Complete      String?
+  message2Complete      String?
+  message3Complete      String?
+  wordsRight            String[]
+  wordsAvoid            String[]
+  voiceToneAttributes   String[]
+  sentenceStructure     String?
+  jargonLevel           String?
+
+  // Part 14: Rapid-Fire
+  gaudiOneWord          String?
+  visitorFeeling        String?
+  firstThought          String?
+  misconception         String?
+  mostExciting          String?
+  superpower            String?
+  fiveYearVision        String?
+  techcrunchHeadline    String?
+
+  // Part 15: Open-Ended
+  otherNotes            String?
+  existingContentAssets String[]
+  contentStorageLocation String?
+  contentToCreate       String[]
+  competitorsReferences String?
+
+  // Admin fields
+  adminNotes            String?
+  isReviewed            Boolean  @default(false)
+  reviewStatus          String   @default("pending")
+  reviewedAt            DateTime?
+  lastPageVisited       Int      @default(1)
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([isReviewed])
+}
+
