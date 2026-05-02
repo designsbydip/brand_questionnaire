@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ success: false, message: "Your session expired. Please log in again." }, { status: 401 });
     }
 
     const body = await request.json();
@@ -72,7 +72,15 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Auto-save error:", error);
-    const message = error instanceof Error ? error.message : String(error);
+    const isDbError = error instanceof Error &&
+      (error.message.includes("database") ||
+       error.message.includes("connection") ||
+       error.message.includes("prisma"));
+
+    const message = isDbError
+      ? "Database connection issue — your answers weren't saved. Please try again."
+      : "We couldn't save your answers. Please check your connection and try again.";
+
     return NextResponse.json(
       { success: false, message },
       { status: 500 }

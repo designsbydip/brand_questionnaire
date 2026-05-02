@@ -56,15 +56,15 @@ export function useFormPage(schema: z.ZodType<any, any, any>, pageRoute: string)
         dispatch({ type: "SET_LAST_SAVED", date: new Date() });
         return true;
       } else {
-        const message = result.message ?? "Failed to save";
+        const message = result.message ?? "Couldn't save your answers";
         dispatch({ type: "SET_SAVE_ERROR", error: message });
-        toast.error(`Save failed: ${message}`);
+        toast.error("Couldn't save your answers — please check your connection and try again.");
         return false;
       }
     } catch (e) {
       const message = e instanceof Error ? e.message : "Failed to save";
       dispatch({ type: "SET_SAVE_ERROR", error: message });
-      toast.error(`Save failed: ${message}`);
+      toast.error(`Couldn't save your answers — please check your connection and try again.`);
       return false;
     } finally {
       dispatch({ type: "SET_SAVING", saving: false });
