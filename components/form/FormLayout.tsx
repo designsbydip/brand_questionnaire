@@ -11,7 +11,7 @@ import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 interface FormLayoutProps {
   children: ReactNode;
   currentRoute: string;
-  onSaveFields: (data: Record<string, unknown>) => Promise<void>;
+  onSaveFields: (data: Record<string, unknown>) => Promise<boolean>;
   handleSubmit: (handler: (data: Record<string, unknown>) => Promise<void>) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   isValid: boolean;
 }
@@ -28,7 +28,8 @@ export function FormLayout({ children, currentRoute, onSaveFields, handleSubmit,
   }, [currentRoute, markPageVisited]);
 
   const onNext = handleSubmit(async (data) => {
-    await onSaveFields(data);
+    const ok = await onSaveFields(data);
+    if (!ok) return;
     if (isLastPage) {
       router.push("/form/review");
     } else if (nextRoute) {

@@ -43,8 +43,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Auto-save error:", error);
+    const message = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { success: false, message: "Failed to save" },
+      { success: false, message },
       { status: 500 }
     );
   }

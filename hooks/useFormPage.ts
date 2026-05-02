@@ -31,7 +31,7 @@ export function useFormPage(schema: z.ZodType<any, any, any>, pageRoute: string)
     markPageVisited(pageRoute);
   }, [pageRoute, markPageVisited]);
 
-  const saveToDb = useCallback(async (pageData: Record<string, unknown>) => {
+  const saveToDb = useCallback(async (pageData: Record<string, unknown>): Promise<boolean> => {
     dispatch({ type: "SET_SAVING", saving: true });
     try {
       // Merge accumulated state with new page data so all answers persist
@@ -54,21 +54,26 @@ export function useFormPage(schema: z.ZodType<any, any, any>, pageRoute: string)
           dispatch({ type: "SET_RESPONSE_ID", id: result.id });
         }
         dispatch({ type: "SET_LAST_SAVED", date: new Date() });
+        return true;
       } else {
-        dispatch({ type: "SET_SAVE_ERROR", error: result.message ?? "Failed to save" });
-        toast.error("Failed to save progress");
+        const message = result.message ?? "Failed to save";
+        dispatch({ type: "SET_SAVE_ERROR", error: message });
+        toast.error(`Save failed: ${message}`);
+        return false;
       }
-    } catch {
-      dispatch({ type: "SET_SAVE_ERROR", error: "Failed to save" });
-      toast.error("Failed to save progress");
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "Failed to save";
+      dispatch({ type: "SET_SAVE_ERROR", error: message });
+      toast.error(`Save failed: ${message}`);
+      return false;
     } finally {
       dispatch({ type: "SET_SAVING", saving: false });
     }
   }, [state.data, state.responseId, pageRoute, dispatch]);
 
-  const onSaveFields = useCallback(async (data: Record<string, unknown>) => {
+  const onSaveFields = useCallback(async (data: Record<string, unknown>): Promise<boolean> => {
     updateFields(data);
-    await saveToDb(data);
+    return await saveToDb(data);
   }, [updateFields, saveToDb]);
 
   return {
