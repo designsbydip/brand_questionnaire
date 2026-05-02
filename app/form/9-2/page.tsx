@@ -7,8 +7,15 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part9Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page92Schema = Part9Schema.pick({
+  candidateQuestions: true,
+  careerUniqueSelling: true,
+  careerProblemsToSolve: true,
+  careerGrowth: true,
+});
+
 export default function Page92() {
-  const { form, onSaveFields, isValid } = useFormPage(Part9Schema, "9-2");
+  const { form, onSaveFields, isValid } = useFormPage(Page92Schema, "9-2");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

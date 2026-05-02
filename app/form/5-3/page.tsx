@@ -6,6 +6,12 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part5Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page53Schema = Part5Schema.pick({
+  journeyJobCandidate: true,
+  journeyAckSite: true,
+  journeyCompetitor: true,
+});
+
 const JOURNEYS = [
   { key: "journeyJobCandidate" as const, title: "Job Candidate Journey", desc: "Someone looking for a role at Gaudi" },
   { key: "journeyAckSite" as const, title: "AKC Anuv Site Visitor", desc: "Someone coming from the AKC website" },
@@ -13,7 +19,7 @@ const JOURNEYS = [
 ];
 
 export default function Page53() {
-  const { form, onSaveFields, isValid } = useFormPage(Part5Schema, "5-3");
+  const { form, onSaveFields, isValid } = useFormPage(Page53Schema, "5-3");
   const { control, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   return (

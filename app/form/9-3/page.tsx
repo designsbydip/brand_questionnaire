@@ -13,6 +13,16 @@ import { Part9Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
 
+const Page93Schema = Part9Schema.pick({
+  officeLocation: true,
+  remotePolicy: true,
+  careerTeamSize: true,
+  careerVibe: true,
+  careerPerks: true,
+  openRoles: true,
+  noOpeningsHandling: true,
+});
+
 const REMOTE_OPTIONS = [
   { value: "Full Remote", label: "Full Remote" },
   { value: "Hybrid", label: "Hybrid" },
@@ -27,7 +37,7 @@ const NO_OPENINGS_OPTIONS = [
 ];
 
 export default function Page93() {
-  const { form, onSaveFields, isValid } = useFormPage(Part9Schema, "9-3");
+  const { form, onSaveFields, isValid } = useFormPage(Page93Schema, "9-3");
   const { control, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   const openRoles = watch("openRoles") || [{ role: "", level: "", skills: "" }];

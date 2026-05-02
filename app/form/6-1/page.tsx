@@ -6,6 +6,10 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part6Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page61Schema = Part6Schema.pick({
+  conversionGoals: true,
+});
+
 const GOAL_ITEMS = [
   { id: "careers_applications", label: "Drive careers page applications" },
   { id: "contact_inquiries", label: "Generate client contact inquiries" },
@@ -16,7 +20,7 @@ const GOAL_ITEMS = [
 ];
 
 export default function Page61() {
-  const { form, onSaveFields, isValid } = useFormPage(Part6Schema, "6-1");
+  const { form, onSaveFields, isValid } = useFormPage(Page61Schema, "6-1");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

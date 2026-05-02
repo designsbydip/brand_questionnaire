@@ -7,6 +7,13 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part2Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page21Schema = Part2Schema.pick({
+  valuePropAudience: true,
+  valuePropOutcome: true,
+  valuePropMethod: true,
+  valuePropFraming: true,
+});
+
 const FRAMING_OPTIONS = [
   { value: "engineer_first", label: "Engineering-first", description: "Lead with technical precision and capability" },
   { value: "outcome_first", label: "Outcome-first", description: "Lead with business results and client impact" },
@@ -15,7 +22,7 @@ const FRAMING_OPTIONS = [
 ];
 
 export default function Page21() {
-  const { form, onSaveFields, isValid } = useFormPage(Part2Schema, "2-1");
+  const { form, onSaveFields, isValid } = useFormPage(Page21Schema, "2-1");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

@@ -7,8 +7,15 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part1Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page12Schema = Part1Schema.pick({
+  gaudiStartDate: true,
+  automation6MonthsAgo: true,
+  currentAutomation: true,
+  targetAutomation12Months: true,
+});
+
 export default function Page12() {
-  const { form, onSaveFields, isValid } = useFormPage(Part1Schema, "1-2");
+  const { form, onSaveFields, isValid } = useFormPage(Page12Schema, "1-2");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

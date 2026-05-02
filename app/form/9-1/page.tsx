@@ -9,6 +9,14 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part9Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page91Schema = Part9Schema.pick({
+  candidateExperienceLevel: true,
+  candidateTechnicalSkills: true,
+  candidateNiceToHave: true,
+  candidateCultureFit: true,
+  candidateMotivations: true,
+});
+
 const EXPERIENCE_OPTIONS = [
   { value: "junior", label: "Junior (0–2 years)" },
   { value: "mid", label: "Mid-level (2–5 years)" },
@@ -27,7 +35,7 @@ const MOTIVATION_OPTIONS = [
 ];
 
 export default function Page91() {
-  const { form, onSaveFields, isValid } = useFormPage(Part9Schema, "9-1");
+  const { form, onSaveFields, isValid } = useFormPage(Page91Schema, "9-1");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

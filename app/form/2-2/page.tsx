@@ -8,6 +8,13 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part2Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page22Schema = Part2Schema.pick({
+  capabilities: true,
+  aiHandles: true,
+  humansHandle: true,
+  outputTypes: true,
+});
+
 const OUTPUT_OPTIONS = [
   { value: "drawings", label: "Structural drawings / blueprints" },
   { value: "calculations", label: "Engineering calculations" },
@@ -18,7 +25,7 @@ const OUTPUT_OPTIONS = [
 ];
 
 export default function Page22() {
-  const { form, onSaveFields, isValid } = useFormPage(Part2Schema, "2-2");
+  const { form, onSaveFields, isValid } = useFormPage(Page22Schema, "2-2");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

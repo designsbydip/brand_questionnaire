@@ -7,8 +7,19 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part3Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page32Schema = Part3Schema.pick({
+  toneCasualToProfessional: true,
+  tonePlayfulToSerious: true,
+  toneBoldToUnderstated: true,
+  toneStartupToEnterprise: true,
+  companiesAdmired: true,
+  analogyCar: true,
+  analogyPerson: true,
+  analogyBuilding: true,
+});
+
 export default function Page32() {
-  const { form, onSaveFields, isValid } = useFormPage(Part3Schema, "3-2");
+  const { form, onSaveFields, isValid } = useFormPage(Page32Schema, "3-2");
   const { control, handleSubmit, formState: { errors }, watch } = form;
 
   return (

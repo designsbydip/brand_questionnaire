@@ -5,6 +5,10 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part5Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page52Schema = Part5Schema.pick({
+  homepageSections: true,
+});
+
 const HOMEPAGE_SECTIONS = [
   "Hero / above the fold", "What Gaudi does", "The problem we solve",
   "How it works", "Automation stats", "Example outputs", "Team/talent focus",
@@ -14,7 +18,7 @@ const HOMEPAGE_SECTIONS = [
 ];
 
 export default function Page52() {
-  const { form, onSaveFields, isValid } = useFormPage(Part5Schema, "5-2");
+  const { form, onSaveFields, isValid } = useFormPage(Page52Schema, "5-2");
   const { control, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   const sections = watch("homepageSections") ||

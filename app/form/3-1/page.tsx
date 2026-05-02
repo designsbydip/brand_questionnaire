@@ -6,6 +6,10 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part3Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page31Schema = Part3Schema.pick({
+  vibeAttributes: true,
+});
+
 const VIBE_OPTIONS = [
   { value: "bold_ambitious", label: "Bold & ambitious" },
   { value: "precise_technical", label: "Precise & technical" },
@@ -20,7 +24,7 @@ const VIBE_OPTIONS = [
 ];
 
 export default function Page31() {
-  const { form, onSaveFields, isValid } = useFormPage(Part3Schema, "3-1");
+  const { form, onSaveFields, isValid } = useFormPage(Page31Schema, "3-1");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

@@ -7,8 +7,15 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part5Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page54Schema = Part5Schema.pick({
+  navItems: true,
+  ctaHeader: true,
+  ctaHero: true,
+  ctaFooter: true,
+});
+
 export default function Page54() {
-  const { form, onSaveFields, isValid } = useFormPage(Part5Schema, "5-4");
+  const { form, onSaveFields, isValid } = useFormPage(Page54Schema, "5-4");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

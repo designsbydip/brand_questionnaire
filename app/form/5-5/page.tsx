@@ -5,10 +5,14 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part5Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page55Schema = Part5Schema.pick({
+  contentDepth: true,
+});
+
 const PAGES = ["Homepage", "About / How It Works", "Capabilities", "Careers", "Case Studies"];
 
 export default function Page55() {
-  const { form, onSaveFields, isValid } = useFormPage(Part5Schema, "5-5");
+  const { form, onSaveFields, isValid } = useFormPage(Page55Schema, "5-5");
   const { control, handleSubmit, watch, setValue } = form;
 
   const contentDepth = watch("contentDepth") || PAGES.map((p) => ({ page: p, depth: "medium" as const, wordCount: "" }));

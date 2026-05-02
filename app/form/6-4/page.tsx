@@ -7,6 +7,11 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part6Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page64Schema = Part6Schema.pick({
+  trustSignals: true,
+  trustSignalsLocation: true,
+});
+
 const TRUST_OPTIONS = [
   { value: "client_logos", label: "Client logos" },
   { value: "project_count", label: "Number of projects completed" },
@@ -20,7 +25,7 @@ const TRUST_OPTIONS = [
 ];
 
 export default function Page64() {
-  const { form, onSaveFields, isValid } = useFormPage(Part6Schema, "6-4");
+  const { form, onSaveFields, isValid } = useFormPage(Page64Schema, "6-4");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

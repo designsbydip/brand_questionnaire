@@ -7,8 +7,15 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part6Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page62Schema = Part6Schema.pick({
+  ctaCareersButton: true,
+  ctaCareersSupporting: true,
+  ctaContactButton: true,
+  ctaContactSupporting: true,
+});
+
 export default function Page62() {
-  const { form, onSaveFields, isValid } = useFormPage(Part6Schema, "6-2");
+  const { form, onSaveFields, isValid } = useFormPage(Page62Schema, "6-2");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (

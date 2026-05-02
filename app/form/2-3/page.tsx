@@ -6,6 +6,14 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part2Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page23Schema = Part2Schema.pick({
+  metricsData: true,
+  impactEngineers: true,
+  impactCompany: true,
+  impactClients: true,
+  caseStudyExample: true,
+});
+
 const METRICS = [
   "Project timeline reduction",
   "Team capacity increase",
@@ -16,7 +24,7 @@ const METRICS = [
 ];
 
 export default function Page23() {
-  const { form, onSaveFields, isValid } = useFormPage(Part2Schema, "2-3");
+  const { form, onSaveFields, isValid } = useFormPage(Page23Schema, "2-3");
   const { control, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   const metricsData = watch("metricsData") || METRICS.map((m) => ({ metric: m, before: "", after: "", improvement: "" }));

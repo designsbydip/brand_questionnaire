@@ -6,6 +6,10 @@ import { useFormPage } from "@/hooks/useFormPage";
 import { Part5Schema } from "@/lib/validation";
 import { Controller } from "react-hook-form";
 
+const Page51Schema = Part5Schema.pick({
+  pageHierarchy: true,
+});
+
 const PAGE_ITEMS = [
   { id: "homepage", label: "Homepage" },
   { id: "about_how_it_works", label: "About / How It Works" },
@@ -18,7 +22,7 @@ const PAGE_ITEMS = [
 ];
 
 export default function Page51() {
-  const { form, onSaveFields, isValid } = useFormPage(Part5Schema, "5-1");
+  const { form, onSaveFields, isValid } = useFormPage(Page51Schema, "5-1");
   const { control, handleSubmit, formState: { errors } } = form;
 
   return (
