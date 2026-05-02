@@ -22,8 +22,6 @@ export function useFormPage(schema: z.ZodType<any, any, any>, pageRoute: string)
   useEffect(() => {
     if (Object.keys(state.data).length > 0) {
       form.reset(state.data, { keepErrors: false });
-      // Trigger validation immediately so isValid reflects the pre-filled state
-      form.trigger();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
