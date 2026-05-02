@@ -38,10 +38,24 @@ export default async function FormSectionLayout({ children }: { children: React.
     );
   }
 
+  const SYSTEM_FIELDS = new Set([
+    "id", "createdAt", "updatedAt", "userId",
+    "completionPercentage", "status", "lastPageVisited",
+    "isReviewed", "reviewStatus", "reviewedAt", "adminNotes",
+  ]);
+  const DATE_FIELDS = new Set(["gaudiStartDate"]);
+
   const initialData = response ? {
     responseId: response.id,
     data: Object.fromEntries(
-      Object.entries(response).filter(([_, v]) => v !== null)
+      Object.entries(response)
+        .filter(([k, v]) => v !== null && !SYSTEM_FIELDS.has(k))
+        .map(([k, v]) => {
+          if (DATE_FIELDS.has(k) && v instanceof Date) {
+            return [k, v.toISOString().slice(0, 10)];
+          }
+          return [k, v];
+        })
     )
   } : undefined;
 
